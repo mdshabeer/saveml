@@ -12,11 +12,12 @@
         async function uploadCSV() {
             const fileInput = document.getElementById('fileInput');
             const file = fileInput.files[0];
+            console.error('file >>>>:', file);
             if (!file) {
                 alert('Please select a file.');
                 return;
             }
-                alert('Please select a file.'+file);
+                alert('Alert file.'+file);
 
             const formData = new FormData();
             formData.append('file', file);
@@ -26,10 +27,16 @@
                     method: 'POST',
                     body: formData
                 });
+                            console.error('response >>>>:', response);
+                alert('Alert response.'+response);
+
                 const data = await response.json();
+                          console.error('data >>>>:', data);
+                alert('Alert data.'+data);
                 formData.append('data', data);
                 document.getElementById('result').innerText = `Prediction: ${data.prediction}`;
             } catch (error) {
+                alert('Alert error.'+error);
                                 formData.append('error', error);
 
                 console.error('Error:', error);
