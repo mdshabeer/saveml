@@ -32,7 +32,7 @@
                 const data = response.data;
                 document.getElementById('result').innerText = `Prediction: ${data.prediction}`;
             } catch (error) {
-                console.error('Error:', error);
+                console.error('my Error:', error);
                 document.getElementById('result').innerText = 'Error: ' + error.message;
                                 alert('Alert error.'+error);
 
