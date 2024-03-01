@@ -8,38 +8,34 @@
     <button onclick="uploadCSV()">Upload CSV</button>
     <p id="result"></p>
 
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script>
         async function uploadCSV() {
             const fileInput = document.getElementById('fileInput');
             const file = fileInput.files[0];
-            console.error('file >>>>:', file);
+
             if (!file) {
-                alert('Please select a file.');
+                alert('Please select a CSV file.');
                 return;
             }
-                alert('Alert file.'+file);
 
             const formData = new FormData();
-            formData.append('file', file);
+            formData.append('data', file);
+                alert('Alert file.'+file);
 
             try {
-                const response = await fetch('https://cancel2save-endpoint-b1c8ee9d.eastus.inference.ml.azure.com/score', {
-                    method: 'POST',
-                    body: formData
+                const response = await axios.post('https://cancel2save-endpoint-b1c8ee9d.eastus.inference.ml.azure.com/score', formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
                 });
-                            console.error('response >>>>:', response);
-                alert('Alert response.'+response);
-
-                const data = await response.json();
-                          console.error('data >>>>:', data);
-                alert('Alert data.'+data);
-                formData.append('data', data);
+                const data = response.data;
                 document.getElementById('result').innerText = `Prediction: ${data.prediction}`;
             } catch (error) {
-                alert('Alert error.'+error);
-                                formData.append('error', error);
-
                 console.error('Error:', error);
+                document.getElementById('result').innerText = 'Error: ' + error.message;
+                                alert('Alert error.'+error);
+
             }
         }
     </script>
