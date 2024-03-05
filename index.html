@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Demo Prediction Client (Not Secure)</title>
+</head>
+<body>
+    <form id="prediction-form">
+        <label for="data">Input data:</label>
+        <input type="text" id="data" name="data">
+        <button type="submit">Predict</button>
+    </form>
+    <div id="prediction-result"></div>
+
+    <script>
+        const form = document.getElementById("prediction-form");
+        const resultDiv = document.getElementById("prediction-result");
+
+        form.addEventListener("submit", async (event) => {
+            event.preventDefault();
+
+            // **WARNING: Exposing API key in client-side code is highly discouraged for production use!**
+            const apiKey = "X7y4CD10dgpNtsKSy1pt0soPZ7nPoWSh"; // Replace with a placeholder for demonstration only
+
+            const data = document.getElementById("data").value;
+
+            try {
+                const response = await fetch("http://172.168.200.88:80/api/v1/service/parkdemoep/score", {
+                    method: "POST",
+                    body: JSON.stringify({ data }),
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": `Bearer ${apiKey}`,
+                    },
+                });
+
+                if (response.ok) {
+                    const prediction = await response.json();
+                    resultDiv.textContent = `Prediction: ${prediction}`;
+                } else {
+                    throw new Error(`Error fetching predictions: ${response.statusText}`);
+                }
+            } catch (error) {
+                console.error("Error:", error);
+                resultDiv.textContent = "An error occurred.";
+            }
+        });
+    </script>
+</body>
+</html>
