@@ -23,7 +23,7 @@
             const apiKey = "X7y4CD10dgpNtsKSy1pt0soPZ7nPoWSh"; // Replace with a placeholder for demonstration only
 
             const data = document.getElementById("data").value;
-
+alert("data>>>"+data);
             try {
                 const response = await fetch("http://172.168.200.88:80/api/v1/service/parkdemoep/score", {
                     method: "POST",
@@ -33,15 +33,20 @@
                         "Authorization": `Bearer ${apiKey}`,
                     },
                 });
+alert("response>>>"+response);
 
                 if (response.ok) {
                     const prediction = await response.json();
+                    alert("prediction>>>"+prediction);
+
                     resultDiv.textContent = `Prediction: ${prediction}`;
                 } else {
                     throw new Error(`Error fetching predictions: ${response.statusText}`);
                 }
             } catch (error) {
                 console.error("Error:", error);
+                alert("response>>>"+error);
+
                 resultDiv.textContent = "An error occurred.";
             }
         });
