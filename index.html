@@ -74,7 +74,8 @@
                 }
             } catch (error) {
                 console.error("Error:", error);
-                resultDiv.textContent = "An error occurred.";
+                alert(error.stack);
+                resultDiv.textContent = "An error occurred."||error.stack;
             }
         });
     </script>
